@@ -9,6 +9,7 @@ namespace SHOP_MVC.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Phone { get; set; }
-        public List<Order> Orders { get;} = new ();
+        public Role Role { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

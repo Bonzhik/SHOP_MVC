@@ -17,25 +17,27 @@ namespace SHOP_MVC.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OrderProduct>()
+                .HasKey(pc => new { pc.OrderId, pc.ProductId });
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(p => p.Order)
+                .WithMany(pc => pc.OrderProducts)
+                .HasForeignKey(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(p => p.Product)
+                .WithMany(pc => pc.OrderProducts)
+                .HasForeignKey(p => p.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Product>()
-               .HasMany(e => e.Categories)
-               .WithMany(e => e.Products);
+                .HasMany(e => e.Categories)
+                .WithMany(e => e.Products);
 
-            modelBuilder.Entity<OrderProduct>()
-            .HasKey(op => new { op.OrderId, op.ProductId });
-
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Order)
-                .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op => op.OrderId);
-
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Product)
-                .WithMany(p => p.OrderProducts)
-                .HasForeignKey(op => op.ProductId);
         }
     }
 }

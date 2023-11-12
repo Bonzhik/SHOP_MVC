@@ -1,8 +1,34 @@
-﻿@{
+﻿@using SHOP_MVC.Models.ViewModels
+@model HomePageView
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container row mb-5 mx-auto">
+    <div class="col-2">
+        <div class="list-group">
+        @foreach (var category in Model.Categories)
+        {
+            <a class="list-group-item list-group-item-action" asp-controller="" asp-action="" asp-route-catId="@category.Id">@category.Title</a>
+        }
+        </div>
+    </div>
+    <div class="col">
+        <img src="http://myphonebay.com/wp-content/uploads/2020/12/banner.jpg" class="img-fluid rounded" alt="BANNER">
+    </div>
+</div>
+<p class="text-primary">Случайные товары</p>
+<div class="d-flex p-2">
+    @foreach (var product in Model.Products)
+    {
+        <div class="card m-2" style="width: 18rem;">
+            <img src="@product.Image" class="card-img-top" alt="@product.Title">
+            <div class="card-body">
+                <h5 class="card-title">@product.Title</h5>
+                <p class="card-text">@product.Description</p>
+                <p class="card-text">@product.Price</p>
+                <a class="btn btn-primary" asp-controller="" asp-action="" asp-route-prId="@product.Id">Go somewhere</a>
+            </div>
+        </div>
+    }
 </div>

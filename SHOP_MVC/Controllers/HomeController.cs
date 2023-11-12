@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SHOP_MVC.Interfaces;
 using SHOP_MVC.Models;
+using SHOP_MVC.Models.ViewModels;
 using System.Diagnostics;
 
 namespace SHOP_MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
-            _logger = logger;
+            _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var homeVM = new HomePageView()
+            {
+                Categories = await _categoryRepository.GetCategoriesAsync(),
+                Products = await _productRepository.GetProductsAsync()
+            };
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
