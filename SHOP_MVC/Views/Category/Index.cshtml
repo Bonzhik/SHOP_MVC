@@ -1,0 +1,67 @@
+﻿@using SHOP_MVC.Models.Dto
+@model List<CategoryDto>
+@{
+    ViewData["Title"] = "Categories";
+}
+<div class="d-flex"><div class="ms-auto"><button type="button" class="btn btn-success" data-action="CreatePartial">Добавить</button> </div></div>
+<div class="modal fade" id="CRUDModal" tabindex="-1" aria-labelledby="CRUDModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="CRUDContainer">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 50%">Id</th>
+            <th scope="col" style="width: 50%">Title</th>
+            <th scope="col" style="width: 25%"></th>
+            <th scope="col" style="width: 25%"></th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        @foreach(var category in Model)
+        {
+            <tr>
+                <th scope="row" style="width: 50%">@category.Id</th>
+                <td style="width: 50%">@category.Title</td>
+                <td style ="width: 25%"><button type="button" class="btn btn-primary" data-action="EditPartial" data-id=@category.Id>Изменить</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-danger" data-action="DeletePartial" data-id=@category.Id>Удалить</button></td>
+            </tr>
+        }
+    </tbody>
+    </table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('button[data-action]').click(function () {
+            var action = $(this).data('action');
+            var id = $(this).data('id')
+            if (action == "CreatePartial") {
+                var url = '@Url.Action("", "Category")' + '/' + action;
+            } else {
+                var url = '@Url.Action("", "Category")' + '/' + action + '/' + id;
+            }
+            loadPartialView(url);
+        });
+
+        function loadPartialView(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#CRUDModal').modal('show');
+                    $('#CRUDContainer').html(result);
+                }
+            });
+        }
+    });
+</script>

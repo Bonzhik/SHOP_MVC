@@ -18,6 +18,10 @@ namespace SHOP_MVC.Repositories
         {
             return await _context.Categories.ToListAsync();
         }
+        public async Task<Category> GetCategoryAsync(int id)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
         public async Task<bool> AddAsync(Category category)
         {
             await _context.AddAsync(category);

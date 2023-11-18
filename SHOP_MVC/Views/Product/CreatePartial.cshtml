@@ -1,0 +1,35 @@
+﻿@using SHOP_MVC.Models.ViewModels
+@model CEProductViewModel
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<form asp-action="CreatePartial" asp-controller="Product" method="post">
+    <div class="form-group">
+        <input asp-for="@Model.ProductDto.Id" class="form-control" value=0 hidden/>
+        <label asp-for="@Model.ProductDto.Title"></label>
+        <input asp-for="@Model.ProductDto.Title" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Title" class="text-danger"></span>
+        <label asp-for="@Model.ProductDto.Description"></label>
+        <input asp-for="@Model.ProductDto.Description" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Description" class="text-danger"></span>
+        <label asp-for="@Model.ProductDto.Image"></label>
+        <input asp-for="@Model.ProductDto.Image" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Image" class="text-danger"></span>
+        <label asp-for="@Model.ProductDto.Quantity"></label>
+        <input asp-for="@Model.ProductDto.Quantity" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Quantity" class="text-danger"></span>
+        <label asp-for="@Model.ProductDto.Price"></label>
+        <input asp-for="@Model.ProductDto.Price" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Price" class="text-danger"></span>
+
+        <label asp-for="SelectedCategories" class="control-label">Categories:</label><br />
+        @foreach (var category in Model.AllCategories)
+        {
+            <label>
+            <input type="checkbox" name="SelectedCategories" value="@category.Value" />@category.Text
+            </label>
+        }
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Добавить</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+</form>

@@ -1,0 +1,15 @@
+﻿@using SHOP_MVC.Models.Dto
+@model CategoryDto
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<form asp-action="CreatePartial" asp-controller="Category" method="post">
+    <div class="form-group">
+        <input asp-for="@Model.Id" class="form-control" value=0 hidden/>
+        <label asp-for="@Model.Title"></label>
+        <input asp-for="@Model.Title" class="form-control" />
+        <span asp-validation-for="@Model.Title" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Добавить</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+</form>

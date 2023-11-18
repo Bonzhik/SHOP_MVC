@@ -1,0 +1,15 @@
+﻿@using SHOP_MVC.Models.ViewModels
+@model CEProductViewModel
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<form asp-action="EditPartial" asp-controller="Category" method="post">
+    <div class="form-group">
+        <input asp-for="@Model.ProductDto.Id" class="form-control" value=@Model.ProductDto.Id disabled/>
+        <label asp-for="@Model.ProductDto.Title"></label>
+        <input asp-for="@Model.ProductDto.Title" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Title" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Изменить</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+</form>

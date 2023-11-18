@@ -1,8 +1,10 @@
-﻿namespace SHOP_MVC.Models.ViewModels
+﻿using SHOP_MVC.Models.Dto;
+
+namespace SHOP_MVC.Models.ViewModels
 {
     public class HomePageView
     {
-        public ICollection<Product> Products { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public ICollection<ProductDto> Products { get; set; }
+        public ICollection<CategoryDto> Categories { get; set; }
     }
 }
