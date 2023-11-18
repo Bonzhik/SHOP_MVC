@@ -34,12 +34,15 @@ namespace SHOP_MVC.Controllers
             var category = _mapper.Map<Category>(categoryDto);
             if (await _categoryRepository.IsExistsAsync(category))
             {
+                TempData["error"] = "This item already exists";
                 return RedirectToAction("Index");
             }
             if (!await _categoryRepository.AddAsync(category))
             {
+                TempData["error"] = "Something went wrong while saving";
                 return RedirectToAction("Index");
             }
+            TempData["success"] = "Success";
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -57,12 +60,15 @@ namespace SHOP_MVC.Controllers
             var category = _mapper.Map<Category>(categoryDto);
             if (await _categoryRepository.IsExistsAsync(category))
             {
+                TempData["error"] = "This item already exists";
                 return RedirectToAction("Index");
             }
             if (!await _categoryRepository.UpdateAsync(category))
             {
+                TempData["error"] = "Something went wrong while saving";
                 return View("Error");
             }
+            TempData["success"] = "Success";
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -82,8 +88,10 @@ namespace SHOP_MVC.Controllers
 
             if (!await _categoryRepository.DeleteAsync(category))
             {
+                TempData["error"] = "Something went wrong while saving";
                 return RedirectToAction("Index");
             }
+            TempData["success"] = "Success";
             return RedirectToAction("Index");
         }
     }

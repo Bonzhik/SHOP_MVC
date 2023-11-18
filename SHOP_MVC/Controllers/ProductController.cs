@@ -53,12 +53,15 @@ namespace SHOP_MVC.Controllers
             product.Categories = categories;
             if (await _productRepository.IsExistsAsync(product))
             {
+                TempData["error"] = "This item already exists";
                 return RedirectToAction("Index");
             }
             if (!await _productRepository.AddAsync(product))
             {
-                return View("Error");
+                TempData["error"] = "Something went wrong while saving";
+                return RedirectToAction("Index");
             }
+            TempData["success"] = "Success";
             return RedirectToAction("Index");
         }
     }
