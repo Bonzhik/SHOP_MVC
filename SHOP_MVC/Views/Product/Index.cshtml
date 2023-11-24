@@ -1,5 +1,5 @@
 ﻿@using SHOP_MVC.Models.Dto
-@model ICollection<ProductDto>
+@model List<ProductDto>
 @{
     ViewData["Title"] = "Products";
 }
@@ -56,7 +56,7 @@
             if (action == "CreatePartial") {
                 var url = '@Url.Action("", "Product")' + '/' + action;
             } else {
-                var url = '@Url.Action("", "Category")' + '/' + action + '/' + id;
+                var url = '@Url.Action("", "Product")' + '/' + action + '/' + id;
             }
             loadPartialView(url);
         });

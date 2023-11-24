@@ -2,12 +2,38 @@
 @model CEProductViewModel
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<form asp-action="EditPartial" asp-controller="Category" method="post">
+<form asp-action="EditPartial" asp-controller="Product" method="post">
     <div class="form-group">
-        <input asp-for="@Model.ProductDto.Id" class="form-control" value=@Model.ProductDto.Id disabled/>
+        <input asp-for="@Model.ProductDto.Id" class="form-control" value=@Model.ProductDto.Id hidden />
         <label asp-for="@Model.ProductDto.Title"></label>
         <input asp-for="@Model.ProductDto.Title" class="form-control" />
         <span asp-validation-for="@Model.ProductDto.Title" class="text-danger"></span>
+        <br />
+        <label asp-for="@Model.ProductDto.Description"></label>
+        <input asp-for="@Model.ProductDto.Description" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Description" class="text-danger"></span>
+        <br />
+        <label asp-for="@Model.ProductDto.Image"></label>
+        <input asp-for="@Model.ProductDto.Image" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Image" class="text-danger"></span>
+        <br />
+        <label asp-for="@Model.ProductDto.Quantity"></label>
+        <input asp-for="@Model.ProductDto.Quantity" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Quantity" class="text-danger"></span>
+        <br />
+        <label asp-for="@Model.ProductDto.Price"></label>
+        <input asp-for="@Model.ProductDto.Price" class="form-control" />
+        <span asp-validation-for="@Model.ProductDto.Price" class="text-danger"></span>
+        <br />
+        <label asp-for="SelectedCategories" class="control-label">Categories:</label><br />
+        @foreach (var category in Model.AllCategories)
+        {
+            <label>
+                <input type="checkbox" name="SelectedCategories" value="@category.Value"
+                @(Model.ProductDto.Categories.Select(c => c.Id).Contains(Convert.ToInt32(category.Value)) ? "checked" : "") />
+                @category.Text
+            </label>
+        }
     </div>
     <br />
     <button type="submit" class="btn btn-primary">Изменить</button>

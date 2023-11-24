@@ -1,0 +1,21 @@
+﻿@using SHOP_MVC.Models.Dto;
+@model UserDto;
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<partial Name="_Notifications" />
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div><h2 class="text-center">Регистрация</h2></div>
+    <div class="form-group">
+        <label asp-for="@Model.Email"></label>
+        <input asp-for="@Model.Email" class="form-control" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        <br />
+        <label asp-for="@Model.Password"></label>
+        <input asp-for="@Model.Password" class="form-control" />
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    <br />
+    <a class="text-dark" asp-controller="Account" asp-action="Login">Уже есть аккаунт?</a>
+</form>

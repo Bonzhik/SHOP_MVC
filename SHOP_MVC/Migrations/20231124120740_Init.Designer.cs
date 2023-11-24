@@ -11,7 +11,7 @@ using SHOP_MVC.Data;
 namespace SHOP_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231112143202_Init")]
+    [Migration("20231124120740_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -37,6 +37,32 @@ namespace SHOP_MVC.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("CategoryProduct");
+                });
+
+            modelBuilder.Entity("SHOP_MVC.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("SHOP_MVC.Models.Category", b =>
@@ -175,7 +201,6 @@ namespace SHOP_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -183,7 +208,6 @@ namespace SHOP_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
@@ -209,6 +233,25 @@ namespace SHOP_MVC.Migrations
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SHOP_MVC.Models.CartItem", b =>
+                {
+                    b.HasOne("SHOP_MVC.Models.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SHOP_MVC.Models.User", "User")
+                        .WithMany("CartItems")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SHOP_MVC.Models.Order", b =>
@@ -267,6 +310,8 @@ namespace SHOP_MVC.Migrations
 
             modelBuilder.Entity("SHOP_MVC.Models.Product", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("OrderProducts");
                 });
 
@@ -282,6 +327,8 @@ namespace SHOP_MVC.Migrations
 
             modelBuilder.Entity("SHOP_MVC.Models.User", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

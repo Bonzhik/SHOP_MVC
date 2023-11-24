@@ -10,6 +10,7 @@ namespace SHOP_MVC.Models
         public string Description { get; set; }
         public string Image {  get; set; }
         public ICollection<Category> Categories { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
         public int Quantity { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }

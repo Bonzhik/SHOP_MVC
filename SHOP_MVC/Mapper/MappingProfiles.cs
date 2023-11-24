@@ -11,6 +11,7 @@ namespace SHOP_MVC.Mapper
             CreateMap<Category, CategoryDto>();
             CreateMap<ProductDto, Product>();
             CreateMap<Product, ProductDto>();
+            CreateMap<UserDto, User>();
         }
     }
 }

@@ -18,9 +18,9 @@ namespace SHOP_MVC.Repositories
             return await SaveAsync();
         }
 
-        public async Task<bool> DeleteAsync(Product product)
+        public async Task<bool> DeleteAsync(int id)
         {
-            _context.Remove(product); 
+            _context.Remove(await _context.Products.FirstOrDefaultAsync(p => p.Id == id)); 
             return await SaveAsync(); 
         }
 
@@ -28,7 +28,10 @@ namespace SHOP_MVC.Repositories
         {
             return await _context.Products.ToListAsync();
         }
-
+        public async Task<Product> GetProductAsync(int id)
+        {
+            return await _context.Products.Include(p => p.Categories).FirstOrDefaultAsync(p => p.Id == id);
+        }
         public async Task<bool> IsExistsAsync(Product product)
         {
             if (await _context.Products.AnyAsync(c => c.Title == product.Title && c.Id != product.Id))
