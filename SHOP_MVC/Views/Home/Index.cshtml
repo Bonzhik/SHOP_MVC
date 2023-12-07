@@ -27,7 +27,7 @@
                 <h5 class="card-title">@product.Title</h5>
                 <p class="card-text">@product.Description</p>
                 <p class="card-text">@product.Price</p>
-                <a class="btn btn-primary" asp-controller="" asp-action="" asp-route-prId="@product.Id">Go somewhere</a>
+                <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">Добавить в корзину</a>
             </div>
         </div>
     }

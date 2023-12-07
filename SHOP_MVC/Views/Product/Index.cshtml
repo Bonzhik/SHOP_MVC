@@ -52,7 +52,7 @@
     $(document).ready(function () {
         $('button[data-action]').click(function () {
             var action = $(this).data('action');
-            var id = $(this).data('id')
+            var id = $(this).data('id');
             if (action == "CreatePartial") {
                 var url = '@Url.Action("", "Product")' + '/' + action;
             } else {

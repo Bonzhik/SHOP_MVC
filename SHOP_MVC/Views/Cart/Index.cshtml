@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using SHOP_MVC.Models;
+@model List<CartItem>;
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col" style="width: 33%">Title</th>
+            <th scope="col" style="width: 33%">Quantity</th>
+            <th scope="col" style="width: 33%">Price</th>
+            <th scope="col" style="width: 5%"></th>
+            <th scope="col" style="width: 5%"></th>
+            <th scope="col" style="width: 5%"></th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td style="width: 18%">@product.Product.Title</td>
+                <td style="width: 18%">@product.Quantity</td>
+                <td style="width: 18%">@(product.Product.Price * product.Quantity)</td>
+                <td style="width: 25%"><button type="button" class="btn btn-primary">^</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-primary">v</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-danger">x</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
