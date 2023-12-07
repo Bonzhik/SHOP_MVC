@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 <div class="container row mb-5 mx-auto">
     <div class="col-2">
         <div class="list-group">
@@ -27,8 +29,28 @@
                 <h5 class="card-title">@product.Title</h5>
                 <p class="card-text">@product.Description</p>
                 <p class="card-text">@product.Price</p>
-                <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-productId="@product.Id">Добавить в корзину</a>
+                <a class="btn btn-primary" data-productId="@product.Id">Добавить в корзину</a>
             </div>
         </div>
     }
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.btn-primary').click(function () {
+            var productId = $(this).data('productid');
+            console.log(productId);
+            $.ajax({
+                url: '/Cart/Add/',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    toastr.success('Product added to cart successfully!');
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Error adding product to cart');
+                }
+            });
+        });
+    });
+</script>

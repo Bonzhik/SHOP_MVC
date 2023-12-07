@@ -30,6 +30,7 @@ namespace SHOP_MVC.Controllers
             var products = await _cartRepository.GetCartItemsAsync(email);
             return View(products);
         }
+        [HttpPost]
         public async Task<IActionResult> Add(int productId)
         {
             var product = await _productRepository.GetProductAsync(productId);
@@ -38,21 +39,26 @@ namespace SHOP_MVC.Controllers
             if (products.Any(p => p.Product.Equals(product)))
             {
                 await Update(productId, "increase");
+                TempData["success"] = "Success";
+                return Ok();
             }
-            CartItem item = new CartItem()
+            else 
             {
-                Id = default(int),
-                Product = product,
-                User = await _userRepository.GetUserAsync(email),
-                Quantity = 1
-            };
-            if (!await _cartRepository.AddAsync(item))
-            {
-                TempData["error"] = "Something went wrong while saving";
-                return RedirectToAction("Home", "Index");
+                CartItem item = new CartItem()
+                {
+                    Id = default(int),
+                    Product = product,
+                    User = await _userRepository.GetUserAsync(email),
+                    Quantity = 1
+                };
+                if (!await _cartRepository.AddAsync(item))
+                {
+                    TempData["error"] = "Something went wrong while saving";
+                    return BadRequest();
+                }
+                TempData["success"] = "Success";
+                return Ok();
             }
-            return RedirectToAction("Index","Home");
-
         }
         [HttpPost]
         public async Task<IActionResult> Update(int productId, string action)
