@@ -63,7 +63,36 @@ namespace SHOP_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(int productId, string action)
         {
-            return RedirectToAction("Index", "Home");
+            var email = HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var products = await _cartRepository.GetCartItemsAsync(email);
+            var rightProduct = products.FirstOrDefault(p => p.Id == productId);
+            var rightCartItem = await _cartRepository.GetCartItemAsync(rightProduct.Id);
+            if (action == "increase")
+            {
+                rightCartItem.Quantity += 1;
+                await _cartRepository.SaveAsync();
+                return Ok(new
+                {
+                    quantity = rightCartItem.Quantity,
+                    totalPrice = rightCartItem.Quantity * rightProduct.Product.Price
+                });
+            } else
+            {
+                rightCartItem.Quantity -= 1;
+                await _cartRepository.SaveAsync();
+                return Ok(new
+                {
+                    quantity = rightCartItem.Quantity,
+                    totalPrice = rightCartItem.Quantity * rightProduct.Product.Price
+                });
+            }
+        
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int productId)
+        {
+            await _cartRepository.DeleteAsync(productId);
+            return Ok();
         }
     }
 }

@@ -18,10 +18,49 @@
                 <td style="width: 18%">@product.Product.Title</td>
                 <td style="width: 18%">@product.Quantity</td>
                 <td style="width: 18%">@(product.Product.Price * product.Quantity)</td>
-                <td style="width: 25%"><button type="button" class="btn btn-primary">^</button></td>
-                <td style="width: 25%"><button type="button" class="btn btn-primary">v</button></td>
-                <td style="width: 25%"><button type="button" class="btn btn-danger">x</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-primary" data-action="increase" data-id="@product.Id">^</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-primary" data-action="decrease" data-id="@product.Id">v</button></td>
+                <td style="width: 25%"><button type="button" class="btn btn-danger" data-action="delete" data-id ="@product.Id">x</button></td>
             </tr>
         }
     </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('button[data-action]').click(function () {
+            var action = $(this).data('action');
+            var productId = $(this).data('id');
+            var row = $(this).closest('tr');
+            if (action == 'increase' || action == 'decrease') {
+                $.ajax({
+                    url: '/Cart/Update/',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        action: action
+                    },
+                    success: function (response) {
+                        row.find('td:nth-child(2)').text(response.quantity); 
+                        row.find('td:nth-child(3)').text(response.totalPrice);
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            } else if (action == 'delete') {
+                $.ajax({
+                    url: '/Cart/Delete/',
+                    type: 'POST',
+                    data: {
+                        productId: productId
+                    },
+                    success: function (response) {
+                        row.remove();
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            }
+        });
+    });
+</script>
