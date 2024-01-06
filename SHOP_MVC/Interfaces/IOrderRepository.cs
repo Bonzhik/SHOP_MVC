@@ -4,7 +4,7 @@ namespace SHOP_MVC.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<bool> AddOrder(int[][] productsId, Order order);
+        Task<bool> AddOrderAsync(List<OrderProduct> orderProducts, Order order);
         Task<bool> SaveAsync();
     }
 }

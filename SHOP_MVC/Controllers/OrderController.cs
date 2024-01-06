@@ -22,18 +22,42 @@ namespace SHOP_MVC.Controllers
             _cartRepository = cartRepository;
             _userRepository = userRepository;
         }
-        public async Task<IActionResult> CreateOrder(string address, string status)
+        [HttpGet]
+        public async Task<IActionResult> CreatePartial()
         {
+            return PartialView();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(string address)
+        {
+            List<OrderProduct> orderProducts = new List<OrderProduct>();
             var userEmailClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimsIdentity.DefaultNameClaimType);
             var user = await _userRepository.GetUserAsync(userEmailClaim.Value);
             var order = new Order()
             {
                 Id = 0,
-                Status = status,
+                Status = "На доставке",
                 Address = address,
                 User = user,
             };
-            return View();
+            var cartItems = await _cartRepository.GetCartItemsAsync(userEmailClaim.Value);
+            foreach(var cartItem in cartItems)
+            {
+                OrderProduct orderProductEntity = new OrderProduct()
+                {
+                    Order = order,
+                    Product = cartItem.Product,
+                    Quantity = cartItem.Quantity,
+                };
+                orderProducts.Add(orderProductEntity);
+            }
+            if (!await _orderRepository.AddOrderAsync(orderProducts, order))
+            {
+                TempData["error"] = "Something went wrong while saving";
+                return RedirectToAction("Index", "Cart");
+            }
+            TempData["success"] = "Success";
+            return RedirectToAction("Index", "Home");
         }
 
     }
