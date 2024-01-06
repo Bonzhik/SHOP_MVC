@@ -13,21 +13,14 @@ namespace SHOP_MVC.Repositories
         {
             _context = context;
         }
-        public async Task<bool> AddOrder(int[][] productsId, Order order)
+        public async Task<bool> AddOrderAsync(List<OrderProduct> orderProducts, Order order)
         {
             await _context.AddAsync(order);
-            for (int i = 0; i < productsId.Length; i++)
+            foreach (var orderProduct in orderProducts)
             {
-                var currentproduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == productsId[i][0]);
-                currentproduct.Quantity -= productsId[i][1];
-
-                OrderProduct orderProductEntity = new OrderProduct()
-                {
-                    Order = order,
-                    Product = currentproduct,
-                    Quantity = productsId[i][1]
-                };
-                await _context.AddAsync(orderProductEntity);
+                var currentproduct = await _context.Products.FirstOrDefaultAsync(p => p.Equals(orderProduct.Product));
+                currentproduct.Quantity -= orderProduct.Quantity;
+                await _context.AddAsync(orderProduct);
             }
             return await SaveAsync();
         }
