@@ -94,5 +94,9 @@ namespace SHOP_MVC.Controllers
             await _cartRepository.DeleteAsync(productId);
             return Ok();
         }
+        public async Task<bool> CheckEnoughProduct(int productId, int productQuantity)
+        {
+
+        }
     }
 }

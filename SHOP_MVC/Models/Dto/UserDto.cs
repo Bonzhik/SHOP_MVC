@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SHOP_MVC.Models.Dto
 {
@@ -7,6 +8,7 @@ namespace SHOP_MVC.Models.Dto
         [Required]
         public string Email { get; set; }
         [Required]
+        [PasswordPropertyText]
         public string Password { get; set; }
     }
 }

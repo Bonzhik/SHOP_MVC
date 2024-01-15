@@ -26,17 +26,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <div class="dropdown nav-item ms-auto">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Панель управления
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Категории</a></li>
-                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Продукты</a></li>
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Пользователи</a></li>
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Заказы</a></li>
-                            </ul>
-                        </div>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <div class="dropdown nav-item ms-auto">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Панель управления
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Категории</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Продукты</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Пользователи</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">Заказы</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="nav-item ms-auto"></div>
+                        }
                         <div class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Корзина</a>
                         </div>
